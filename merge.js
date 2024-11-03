@@ -1,19 +1,21 @@
 import { spawn } from 'child_process';
 import chalk from 'chalk';
 
-const [inputFile, option, outputName] = process.argv.slice(2);
+const [inputFile, options, outputName] = process.argv.slice(2);
 
-const childProcess = spawn('mkvmerge', [inputFile, option, outputName]);
+const childProcess = spawn('mkvmerge', [inputFile, options, outputName]);
 
 function updateProgressBar(progress) {
   const progressBarLength = 50;
   const filledBars = Math.round(progressBarLength * progress / 100);
   const emptyBars = progressBarLength - filledBars;
 
-  const progressBarr = chalk.green('█'.repeat(filledBars)) + chalk.gray('░'.repeat(emptyBars));
+  const progressBarr = chalk.green('█'.repeat(filledBars - 1))+ "" + chalk.gray('░'.repeat(emptyBars));
   const progressPercetage = `${progress}%`;
+  const icon = chalk.blueBright('  ');
+  const videoTitle = chalk.greenBright(outputName);
 
-  process.stdout.write(`\r${outputName} - ${progressBarr} ${progressPercetage}`);
+  process.stdout.write(`\r ${icon}${videoTitle} ${progressBarr} ${progressPercetage}`);
 }
 
 childProcess.stdout.on('data', (chunk) => {
@@ -31,5 +33,5 @@ childProcess.stderr.on('data', (chunk) => {
 
 childProcess.on('close', (code) => {
   // process.stdout.clearLine()
-  console.log("\r");
+  console.log("\n");
 });
