@@ -10,12 +10,12 @@ function updateProgressBar(progress) {
   const filledBars = Math.round(progressBarLength * progress / 100);
   const emptyBars = progressBarLength - filledBars;
 
-  const progressBarr = chalk.green('█'.repeat(filledBars - 1))+ "" + chalk.gray('░'.repeat(emptyBars));
+  const progressBarr = chalk.green('█'.repeat(filledBars)) + chalk.gray('░'.repeat(emptyBars));
   const progressPercetage = `${progress}%`;
   const icon = chalk.blueBright('  ');
   const videoTitle = chalk.greenBright(outputName);
 
-  process.stdout.write(`\r ${icon}${videoTitle} ${progressBarr} ${progressPercetage}`);
+  process.stdout.write(`\r Muxing${icon}${videoTitle} ${progressBarr} ${progressPercetage}`);
 }
 
 childProcess.stdout.on('data', (chunk) => {
@@ -28,7 +28,7 @@ childProcess.stdout.on('data', (chunk) => {
 });
 
 childProcess.stderr.on('data', (chunk) => {
-  console.error(chunk.toString());   
+  console.error(chunk.toString()); 
 });
 
 childProcess.on('close', (code) => {
